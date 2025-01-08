@@ -1,6 +1,6 @@
 [versions]
 agp = "8.7.3"
-kotlin = "2.1.0"
+kotlin = "1.9.21"
 coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -10,13 +10,14 @@ material = "1.12.0"
 activity = "1.9.3"
 constraintlayout = "2.2.0"
 
-hilt = "2.52" # version 2.53 has an issue with kapt
+hilt = "2.48" # version 2.53 has an issue with kapt
 retrofit = "2.11.0"
 okhttp = "4.12.0"
 converterKotlinxSerialization = "2.11.0"
 kotlinxSerializationJson = "1.7.3"
 ksp = "2.1.0-1.0.29"
 gson = "2.10.1"
+lifecycle = "2.8.7"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -28,6 +29,15 @@ material = { group = "com.google.android.material", name = "material", version.r
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 
+activityExt = { module = "androidx.activity:activity-ktx", version = "1.9.3" }
+fragmentExt = { module = "androidx.fragment:fragment-ktx", version = "1.8.5" }
+viewModelExt = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+
+navFragmentExt = { module = "androidx.navigation:navigation-fragment-ktx", version = "2.8.5" }
+navExt = { module = "androidx.navigation:navigation-ui-ktx", version = "2.8.5" }
+navDynamicFeaturesExt = { module = "androidx.navigation:navigation-dynamic-features-fragment", version = "2.8.5" }
+navRuntimeExt = { module = "androidx.navigation:navigation-runtime-ktx", version = "2.8.5" }
+
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
@@ -37,6 +47,9 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 converter = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 converter-kotlinx-serialization = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "converterKotlinxSerialization" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+sdp = { module = "com.intuit.sdp:sdp-android", version= "1.1.1" }
+ssp = { module = "com.intuit.ssp:ssp-android", version= "1.1.1" }
+circleImage = { module = "de.hdodenhof:circleimageview", version= "3.1.0" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -2,4 +2,13 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="btn_background">#F6F7FA</color>
+    <color name="grey">#9D9FA0</color>
+    <color name="cyan">#4DC9D1</color>
+    <color name="blue">#0082CD</color>
+    <color name="purple">#8D5EF2</color>
+    <color name="red">#EC5F5F</color>
+    <color name="red_40">#66EC5F5F</color>
+    <color name="yellow">#FCD034</color>
+    <color name="text_inactive">#9D9FA0</color>
 </resources>

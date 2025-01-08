@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">Mazaady_Task</string>
+    <string name="check_your_network_connection">Please check your network connection.</string>
+    <string name="bad_request">Bad Request. Please check your input.</string>
+    <string name="unauthorized">You are not authorized to access this resource.</string>
+    <string name="forbidden">Access to this resource is forbidden.</string>
+    <string name="not_found">The requested resource was not found.</string>
+    <string name="internal_server_error">Internal server error. Please try again later.</string>
+    <string name="unknown_error">An unknown error occurred.</string>
+    <string name="invalid_input">Invalid input provided.</string>
+    <string name="generic_server_error">A server error occurred. Please try again later.</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="main_category">Main Category</string>
+    <string name="sub_category">Sub Category</string>
+    <string name="close">Close</string>
+    <string name="search">Search</string>
+    <string name="other">Other</string>
+    <string name="specify_here">Specify Here</string>
+    <string name="hallo_samuel">Hallo, Samuel!</string>
+    <string name="_1600_points">+1600 Points</string>
 </resources>

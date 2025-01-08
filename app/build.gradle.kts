@@ -34,6 +34,8 @@ android {
             isMinifyEnabled = true
             isDebuggable = false
             buildConfigField("String", "BASE_URL", releaseProp.getProperty("BASE_URL"))
+            buildConfigField("String", "API_KEY_HEADER", releaseProp.getProperty("API_KEY_HEADER"))
+            buildConfigField("String", "API_KEY_VALUE", releaseProp.getProperty("API_KEY_VALUE"))
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -47,6 +49,8 @@ android {
             manifestPlaceholders["app_name"] = debugProp.getProperty("APP_NAME")
             applicationIdSuffix = debugProp.getProperty("APPLICATION_ID_SUFFIX")
             buildConfigField("String", "BASE_URL", debugProp.getProperty("BASE_URL"))
+            buildConfigField("String", "API_KEY_HEADER", debugProp.getProperty("API_KEY_HEADER"))
+            buildConfigField("String", "API_KEY_VALUE", debugProp.getProperty("API_KEY_VALUE"))
         }
     }
     compileOptions {
@@ -73,6 +77,14 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    implementation(libs.activityExt)
+    implementation(libs.fragmentExt)
+    implementation(libs.viewModelExt)
+
+    implementation(libs.navFragmentExt)
+    implementation(libs.navExt)
+    implementation(libs.navDynamicFeaturesExt)
+    implementation(libs.navRuntimeExt)
 
     // Hilt - dependency injection
     implementation(libs.hilt.android)
@@ -94,4 +106,11 @@ dependencies {
 
     // gson
     implementation(libs.gson)
+
+    implementation(libs.sdp)
+    implementation(libs.ssp)
+    implementation(libs.circleImage)
+}
+kapt {
+    correctErrorTypes = true
 }
