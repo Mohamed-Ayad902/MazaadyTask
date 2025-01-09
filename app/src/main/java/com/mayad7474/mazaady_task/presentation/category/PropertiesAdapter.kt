@@ -85,6 +85,8 @@ class PropertiesAdapter @Inject constructor(private val context: Context) :
         val property = items[position]
         holder.binding.apply {
             mainCategoryET.hint = property.name
+            val selectedOption = property.options.firstOrNull { it.isSelected }
+            mainCategoryET.editText?.setText(selectedOption?.name ?: "")
 
             // Handle item click to show OptionsDialog
             btnSelectOption.setOnClickListener {

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.mayad7474.mazaady_task.core.utils.Resource
 import com.mayad7474.mazaady_task.doamin.model.categories.Category
 import com.mayad7474.mazaady_task.doamin.model.categories.SubCategory
+import com.mayad7474.mazaady_task.doamin.model.options.Option
 import com.mayad7474.mazaady_task.doamin.model.properties.Property
 import com.mayad7474.mazaady_task.doamin.useCase.GetCategoriesUC
 import com.mayad7474.mazaady_task.doamin.useCase.GetOptionsForPropertyUC
@@ -129,7 +130,17 @@ class CategoriesVM @Inject constructor(
         getProperties(subCategory.id)
     }
 
-    fun getCategories() {
+    init {
+        getCategories()
+    }
+
+    fun getState(){
+        _properties.value = _properties.value
+        _selectedCat.value = _selectedCat.value
+        _selectedSubCat.value = _selectedSubCat.value
+    }
+
+    private fun getCategories() {
         viewModelScope.launch(Dispatchers.IO) {
             getCategoriesUC.invoke().collectLatest {
                 when (it) {
@@ -160,21 +171,34 @@ class CategoriesVM @Inject constructor(
         }
     }
 
-    fun getOptionForProperty(propertyId: Int, index: Int) {
+    fun getOptionForProperty(option: Option, property: Property) {
+        _properties.value.first { it.id == property.id }.options.forEach { it.isSelected = false }
+        _properties.value.first { it.id == property.id }.options.first { it.id == option.id }.isSelected = true
+
         viewModelScope.launch(Dispatchers.IO) {
-            getOptionsForPropertyUC.invoke(propertyId).collect {
+            getOptionsForPropertyUC.invoke(option.id).collect {
                 when (it) {
                     is Resource.Error -> _state.emit(CategoriesUIState.Failure(it.exception))
                     is Resource.Loading -> _state.emit(CategoriesUIState.Loading(it.loading))
                     is Resource.Success -> {
                         val newProperties = it.data // Assuming this is a List<Property>
                         _properties.value = _properties.value.toMutableList().apply {
-                            addAll(index + 1, newProperties) // Insert the new properties right after the specified index
+                            addAll(
+                                indexOf(property) + 1,
+                                newProperties
+                            ) // Insert the new properties right after the specified index
                         }
                         _state.emit(CategoriesUIState.LoadedProperties(_properties.value))
                     }
                 }
             }
+        }
+    }
+
+
+    fun getAllData() {
+        viewModelScope.launch {
+            _state.emit(CategoriesUIState.LoadedProperties(_properties.value))
         }
     }
 

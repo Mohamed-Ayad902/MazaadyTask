@@ -110,6 +110,7 @@ dependencies {
     implementation(libs.sdp)
     implementation(libs.ssp)
     implementation(libs.circleImage)
+    implementation(libs.datatable)
 }
 kapt {
     correctErrorTypes = true

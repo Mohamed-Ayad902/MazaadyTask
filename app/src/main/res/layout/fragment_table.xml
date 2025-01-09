@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".presentation.table.TableFragment">
+
+    <ir.androidexception.datatable.DataTable
+        android:id="@+id/data_table"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:corner_radius="8dp"
+        app:direction="ltr"
+        app:divider_color="@color/blue"
+        app:divider_thickness="@dimen/_2sdp"
+        app:header_gravity="center"
+        app:header_horizontal_padding="@dimen/_4sdp"
+        app:header_text_color="@color/black"
+        app:header_text_size="@dimen/_3ssp"
+        app:header_vertical_padding="@dimen/_4sdp"
+        app:persian_number="false"
+        app:row_background_color="@color/white"
+        app:row_gravity="center"
+        app:row_text_color="@color/black"
+        app:row_text_size="@dimen/_3ssp"
+        app:row_vertical_padding="@dimen/_4sdp"
+        app:shadow="8dp" />
+
+</FrameLayout>

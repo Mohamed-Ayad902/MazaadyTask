@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
@@ -149,7 +150,7 @@ class CategoriesFragment : Fragment() {
 @AndroidEntryPoint
 class CategoriesFragment : Fragment() {
     private lateinit var binding: FragmentCategoriesBinding
-    private val viewModel: CategoriesVM by viewModels()
+    private val viewModel: CategoriesVM by activityViewModels ()
 
     @Inject
     lateinit var optionsAdapter: OptionsAdapter
@@ -168,7 +169,8 @@ class CategoriesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getCategories()
+//        viewModel.getCategories()
+        viewModel.getState()
         observeState()
         setActions()
 
@@ -255,20 +257,19 @@ class CategoriesFragment : Fragment() {
     }
 
     private fun handlePropertyOptionSelected(property: Property, option: Option) {
-        if (option.name == "Other") {
+        if (option.id == -1 || option.id == -2) {
             "User selected 'Other' for property: ${property.name}".logd(TAG)
         } else {
             "handlePropertyOptionSelected: ${property.name}: ${option.id}".logw(TAG)
             "User selected '${option.name}' for property: ${property.name}".logd(TAG)
-            viewModel.getOptionForProperty(option.id, propertiesAdapter.items.indexOf(property))
-
+            viewModel.getOptionForProperty(option, property)
         }
-
     }
 
     private fun setActions() = binding.apply {
         btnNaviateToHome.setOnClickListener {
-            findNavController().navigate(R.id.action_categoriesFragment_to_homeFragment)
+//            findNavController().navigate(R.id.action_categoriesFragment_to_homeFragment)
+            findNavController().navigate(R.id.action_categoriesFragment_to_tableFragment)
         }
     }
 
