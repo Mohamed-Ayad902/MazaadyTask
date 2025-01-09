@@ -7,11 +7,13 @@ junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 appcompat = "1.7.0"
+kotlinxCoroutinesTest = "1.9.0"
 material = "1.12.0"
 activity = "1.9.3"
 constraintlayout = "2.2.0"
 
 hilt = "2.48" # version 2.53 has an issue with kapt
+mockk = "1.13.2"
 retrofit = "2.11.0"
 okhttp = "4.12.0"
 converterKotlinxSerialization = "2.11.0"
@@ -19,6 +21,7 @@ kotlinxSerializationJson = "1.7.3"
 ksp = "2.1.0-1.0.29"
 gson = "2.10.1"
 lifecycle = "2.8.7"
+truth = "1.1.5"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -27,12 +30,15 @@ junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 
 activityExt = { module = "androidx.activity:activity-ktx", version = "1.9.3" }
 fragmentExt = { module = "androidx.fragment:fragment-ktx", version = "1.8.5" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+truth = { module = "com.google.truth:truth", version.ref = "truth" }
 viewModelExt = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 
 navFragmentExt = { module = "androidx.navigation:navigation-fragment-ktx", version = "2.8.5" }

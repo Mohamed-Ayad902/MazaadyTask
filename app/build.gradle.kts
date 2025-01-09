@@ -111,6 +111,12 @@ dependencies {
     implementation(libs.ssp)
     implementation(libs.circleImage)
     implementation(libs.datatable)
+
+    // testing
+    implementation(libs.mockk)
+    testImplementation (libs.kotlinx.coroutines.test)
+    testImplementation (libs.truth)
+
 }
 kapt {
     correctErrorTypes = true
