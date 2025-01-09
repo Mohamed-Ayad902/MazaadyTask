@@ -624,7 +624,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingHorizontal="@dimen/_20sdp"
+        android:paddingHorizontal="@dimen/_15sdp"
         android:paddingVertical="@dimen/_14sdp"
         app:layout_constraintBottom_toBottomOf="parent">
 
@@ -636,6 +636,7 @@
             android:orientation="vertical">
 
             <ImageView
+                android:padding="@dimen/_2sdp"
                 android:layout_width="@dimen/_24sdp"
                 android:layout_height="@dimen/_24sdp"
                 android:src="@drawable/home" />
@@ -651,18 +652,53 @@
 
         <ImageView
             android:layout_width="@dimen/_24sdp"
+            android:padding="@dimen/_2sdp"
             android:layout_height="@dimen/_24sdp"
             android:layout_weight="1"
             android:src="@drawable/compass" />
 
-        <ImageView
-            android:layout_width="@dimen/_24sdp"
-            android:layout_height="@dimen/_24sdp"
-            android:layout_weight="1"
-            android:src="@drawable/email" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/email"
+                android:layout_width="@dimen/_24sdp"
+                android:layout_height="@dimen/_24sdp"
+                android:layout_weight="1"
+                android:padding="@dimen/_2sdp"
+                android:src="@drawable/email"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                app:cardBackgroundColor="@color/red"
+                app:cardCornerRadius="@dimen/_20sdp"
+                app:layout_constraintEnd_toEndOf="@id/email"
+                app:layout_constraintTop_toTopOf="@id/email"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="@dimen/_12sdp"
+                    android:layout_height="@dimen/_12sdp"
+                    android:gravity="center"
+                    android:textSize="@dimen/_9ssp"
+                    android:text="2"
+                    android:textColor="@color/white"
+                    />
+            </androidx.cardview.widget.CardView>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
             android:layout_width="@dimen/_24sdp"
+            android:padding="@dimen/_2sdp"
             android:layout_height="@dimen/_24sdp"
             android:layout_weight="1"
             android:src="@drawable/user_image" />

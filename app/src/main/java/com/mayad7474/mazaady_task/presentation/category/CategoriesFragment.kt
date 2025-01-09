@@ -122,11 +122,11 @@ class CategoriesFragment : Fragment() {
 
 
     private fun setActions() = binding.apply {
-        btnNaviateToHome.setOnClickListener {
+        btnNaviateToTable.setOnClickListener {
             findNavController().navigate(R.id.action_categoriesFragment_to_tableFragment)
         }
         btnNaviateToHome.setOnClickListener {
-            findNavController().navigate(R.id.action_categoriesFragment_to_tableFragment)
+            findNavController().navigate(R.id.action_categoriesFragment_to_homeFragment)
         }
         propertiesAdapter.setOnOptionSelectedListener { property, option ->
             if ((option.id == -1 || option.id == -2).not())
