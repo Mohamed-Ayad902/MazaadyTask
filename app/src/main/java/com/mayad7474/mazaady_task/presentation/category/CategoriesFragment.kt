@@ -216,8 +216,6 @@ class CategoriesFragment : Fragment() {
                 onItemSelected = { option ->
                     val selectedCategory = categories.first { it.id == option.id }
                     viewModel.selectCat(selectedCategory)
-
-                    propertiesAdapter.items = emptyList()
                 }
             )
         }
@@ -257,13 +255,8 @@ class CategoriesFragment : Fragment() {
     }
 
     private fun handlePropertyOptionSelected(property: Property, option: Option) {
-        if (option.id == -1 || option.id == -2) {
-            "User selected 'Other' for property: ${property.name}".logd(TAG)
-        } else {
-            "handlePropertyOptionSelected: ${property.name}: ${option.id}".logw(TAG)
-            "User selected '${option.name}' for property: ${property.name}".logd(TAG)
+        if ((option.id == -1 || option.id == -2).not())
             viewModel.getOptionForProperty(option, property)
-        }
     }
 
     private fun setActions() = binding.apply {

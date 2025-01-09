@@ -118,16 +118,20 @@ class CategoriesVM @Inject constructor(
     }
 
     fun selectCat(category: Category) {
+        if (category != _selectedCat.value) {
         _selectedCat.value = category
         _selectedSubCat.value = null
         _properties.value = emptyList()
         _state.value = CategoriesUIState.LoadedProperties(emptyList())
+        }
     }
 
     fun selectSubCat(subCategory: SubCategory) {
+        if (subCategory != _selectedSubCat.value) {
         _selectedSubCat.value = subCategory
         _properties.value = emptyList()
         getProperties(subCategory.id)
+        }
     }
 
     init {
