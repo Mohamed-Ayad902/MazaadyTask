@@ -5,7 +5,7 @@ import com.mayad7474.mazaady_task.doamin.model.options.Option
 data class Category(
     val id: Int,
     val name: String,
-    val isSelected: Boolean,
+    var isSelected: Boolean,
     val subCategories: List<SubCategory>,
 )
 

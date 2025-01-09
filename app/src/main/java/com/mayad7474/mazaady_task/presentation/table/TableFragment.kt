@@ -9,7 +9,6 @@ import androidx.fragment.app.activityViewModels
 import com.mayad7474.mazaady_task.core.extensions.collect
 import com.mayad7474.mazaady_task.core.extensions.logd
 import com.mayad7474.mazaady_task.databinding.FragmentTableBinding
-import com.mayad7474.mazaady_task.doamin.model.properties.Property
 import com.mayad7474.mazaady_task.presentation.category.CategoriesUIState
 import com.mayad7474.mazaady_task.presentation.category.CategoriesVM
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,8 +49,9 @@ class TableFragment : Fragment() {
         val rows = mutableListOf<DataTableRow>()
 
         // Add Main Category
-        viewModel.selectedCat.value?.let { category ->
-            rows.add(DataTableRow.Builder().value("Main Category").value(category.name).build())
+        viewModel.allCats.value.let { categories ->
+            val cat = categories.first { it.isSelected }
+            rows.add(DataTableRow.Builder().value("Main Category").value(cat.name).build())
         }
 
         // Add Sub Category
@@ -61,8 +61,15 @@ class TableFragment : Fragment() {
 
         // Add Properties
         viewModel.properties.value.forEach { property ->
-            val selectedOption = property.options.firstOrNull { it.isSelected }?.name ?: "Not Selected"
-            rows.add(DataTableRow.Builder().value(property.name).value(selectedOption).build())
+            val option = if (property.options.firstOrNull { it.isSelected } != null) {
+                property.options.firstOrNull { it.isSelected }!!.name
+            } else if (property.otherOption != null) {
+                property.otherOption
+            } else {
+                "Not Selected"
+            }
+//            val selectedOption = property.options.firstOrNull { it.isSelected }?.name ?: "Not Selected"
+            rows.add(DataTableRow.Builder().value(property.name).value(option).build())
         }
 
         binding.dataTable.apply {

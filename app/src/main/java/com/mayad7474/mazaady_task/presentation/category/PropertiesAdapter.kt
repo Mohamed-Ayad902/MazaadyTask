@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -11,49 +12,6 @@ import com.mayad7474.mazaady_task.databinding.ItemPropertyBinding
 import com.mayad7474.mazaady_task.doamin.model.options.Option
 import com.mayad7474.mazaady_task.doamin.model.properties.Property
 import javax.inject.Inject
-
-/*
-class PropertiesAdapter@Inject constructor(context: Context) : RecyclerView.Adapter<PropertiesAdapter.PropertiesViewHolder>() {
-
-    private var onClick: ((Property) -> Unit)? = null
-    fun onClickListener(onItemClick: (Property) -> Unit) {
-        onClick = onItemClick
-    }
-
-    var items: List<Property>
-        get() = differ.currentList
-        set(value) = differ.submitList(value)
-
-    private val differCallBack = object : DiffUtil.ItemCallback<Property>() {
-        override fun areItemsTheSame(oldItem: Property, newItem: Property) =
-            oldItem.id == newItem.id
-
-        override fun areContentsTheSame(oldItem: Property, newItem: Property) =
-            oldItem == newItem
-    }
-    private val differ = AsyncListDiffer(this, differCallBack)
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        PropertiesViewHolder(
-            ItemPropertyBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
-        )
-
-    override fun onBindViewHolder(holder: PropertiesViewHolder, position: Int) {
-        val property = differ.currentList[position]
-        holder.binding.apply {
-            mainCategoryET.hint = property.name
-            holder.itemView.setOnClickListener { onClick?.invoke(property) }
-        }
-    }
-
-    override fun getItemCount(): Int = differ.currentList.size
-
-    class PropertiesViewHolder(val binding: ItemPropertyBinding) : RecyclerView.ViewHolder(binding.root)
-}*/
 
 class PropertiesAdapter @Inject constructor(private val context: Context) :
     RecyclerView.Adapter<PropertiesAdapter.PropertiesViewHolder>() {
@@ -86,12 +44,17 @@ class PropertiesAdapter @Inject constructor(private val context: Context) :
         holder.binding.apply {
             mainCategoryET.hint = property.name
             val selectedOption = property.options.firstOrNull { it.isSelected }
-            mainCategoryET.editText?.setText(selectedOption?.name ?: "")
+            otherOptionET.visibility = if (property.otherOption != null) View.VISIBLE else View.GONE
+            val text = if (selectedOption?.name != null) selectedOption.name
+            else if (property.otherOption != null) "Other"
+            else ""
 
-            // Handle item click to show OptionsDialog
+            mainCategoryET.editText?.setText(text)
+            otherOptionET.editText?.setText(property.otherOption ?: "")
+
             btnSelectOption.setOnClickListener {
                 OptionsDialog.showDialog(
-                    adapter = OptionsAdapter(context), // Create a new adapter for each dialog
+                    adapter = OptionsAdapter(context),
                     items = property.options,
                     canBeEmpty = true,
                     context = holder.itemView.context,
@@ -100,7 +63,12 @@ class PropertiesAdapter @Inject constructor(private val context: Context) :
                         mainCategoryET.editText?.setText(option.name)
                         if (option.name == "Other") {
                             otherOptionET.visibility = View.VISIBLE
+                            otherOptionET.editText?.doOnTextChanged { text, _, _, _ ->
+                                property.otherOption = text.toString()
+                            }
                         } else {
+                            property.otherOption = null
+                            otherOptionET.editText?.setText("")
                             otherOptionET.visibility = View.GONE
                         }
                         onOptionSelected?.invoke(property, option)

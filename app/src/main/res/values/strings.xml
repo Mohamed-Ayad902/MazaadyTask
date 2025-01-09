@@ -19,4 +19,6 @@
     <string name="specify_here">Specify Here</string>
     <string name="hallo_samuel">Hallo, Samuel!</string>
     <string name="_1600_points">+1600 Points</string>
+    <string name="navigate_to_home">Navigate To Home</string>
+    <string name="nacigate_to_table">Navigate To Table</string>
 </resources>

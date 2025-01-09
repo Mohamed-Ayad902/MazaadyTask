@@ -9,6 +9,5 @@ sealed class CategoriesUIState {
     data class Loading(val isLoading: Boolean) : CategoriesUIState()
     data class LoadedCategories(val categories: List<Category>) : CategoriesUIState()
     data class LoadedProperties(val properties: List<Property>) : CategoriesUIState()
-//    data class LoadedOptionsForProperty(val options: List<Property>) : CategoriesUIState()
     data class Failure(val exception: CustomException) : CategoriesUIState()
 }

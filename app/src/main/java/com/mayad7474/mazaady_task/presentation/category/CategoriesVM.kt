@@ -19,80 +19,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-//@HiltViewModel
-//class CategoriesVM @Inject constructor(
-//    private val getCategoriesUC: GetCategoriesUC,
-//    private val getPropertiesUC: GetPropertiesUC,
-//    private val getOptionsForPropertyUC: GetOptionsForPropertyUC,
-//) : ViewModel() {
-//
-//    private val _state = MutableStateFlow<CategoriesUIState>(CategoriesUIState.Idle)
-//    val state = _state.asStateFlow()
-//
-//    init {
-//        getCategories()
-//    }
-//
-//    private val _selectedCat = MutableStateFlow<Category?>(null)
-//    val selectedCat: StateFlow<Category?> = _selectedCat.asStateFlow()
-//
-//    private val _selectedSubCat = MutableStateFlow<SubCategory?>(null)
-//    val selectedSubCat: StateFlow<SubCategory?> = _selectedSubCat.asStateFlow()
-//
-//
-//    fun selectCat(category: Category) {
-//        _selectedCat.value = category
-//        _selectedSubCat.value = null
-//        _state.value = CategoriesUIState.LoadedProperties(emptyList())
-//    }
-//
-//    fun selectSubCat(subCategory: SubCategory) {
-//        _state.value = CategoriesUIState.LoadedProperties(emptyList())
-//        _selectedSubCat.value = subCategory
-//        getProperties(subCategory.id)
-//    }
-//
-//    fun getCategories() {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            getCategoriesUC.invoke().collectLatest {
-//                when (it) {
-//                    is Resource.Error -> _state.emit(CategoriesUIState.Failure(it.exception))
-//                    is Resource.Loading -> _state.emit(CategoriesUIState.Loading(it.loading))
-//                    is Resource.Success -> {
-//                        _state.emit(CategoriesUIState.LoadedCategories(it.data))
-//                        _selectedCat.value = it.data.first()
-//                        _selectedSubCat.value = null
-//                    }
-//                }
-//            }
-//        }
-//    }
-//
-//    private fun getProperties(subCatId: Int) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            getPropertiesUC.invoke(subCatId).collect {
-//                when (it) {
-//                    is Resource.Error -> _state.emit(CategoriesUIState.Failure(it.exception))
-//                    is Resource.Loading -> _state.emit(CategoriesUIState.Loading(it.loading))
-//                    is Resource.Success -> _state.emit(CategoriesUIState.LoadedProperties(it.data))
-//                }
-//            }
-//        }
-//    }
-//
-//    fun getOptionForProperty(propertyId: Int) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            getOptionsForPropertyUC.invoke(propertyId).collect {
-//                when (it) {
-//                    is Resource.Error -> _state.emit(CategoriesUIState.Failure(it.exception))
-//                    is Resource.Loading -> _state.emit(CategoriesUIState.Loading(it.loading))
-//                    is Resource.Success -> _state.emit(CategoriesUIState.LoadedOptionsForProperty(it.data))
-//                }
-//            }
-//        }
-//    }
-//}
-
 
 @HiltViewModel
 class CategoriesVM @Inject constructor(
@@ -107,8 +33,8 @@ class CategoriesVM @Inject constructor(
     private val _properties = MutableStateFlow<List<Property>>(emptyList())
     val properties = _properties.asStateFlow()
 
-    private val _selectedCat = MutableStateFlow<Category?>(null)
-    val selectedCat: StateFlow<Category?> = _selectedCat.asStateFlow()
+    private val _allCats = MutableStateFlow<List<Category>>(listOf())
+    val allCats: StateFlow<List<Category>> = _allCats.asStateFlow()
 
     private val _selectedSubCat = MutableStateFlow<SubCategory?>(null)
     val selectedSubCat: StateFlow<SubCategory?> = _selectedSubCat.asStateFlow()
@@ -117,31 +43,27 @@ class CategoriesVM @Inject constructor(
         getCategories()
     }
 
+    fun getState(){
+        _properties.value = _properties.value
+        _allCats.value = _allCats.value
+        _selectedSubCat.value = _selectedSubCat.value
+    }
+
     fun selectCat(category: Category) {
-        if (category != _selectedCat.value) {
-        _selectedCat.value = category
+        _allCats.value = _allCats.value.map {
+            it.copy(isSelected = it.id == category.id)
+        }
         _selectedSubCat.value = null
         _properties.value = emptyList()
         _state.value = CategoriesUIState.LoadedProperties(emptyList())
-        }
     }
 
     fun selectSubCat(subCategory: SubCategory) {
         if (subCategory != _selectedSubCat.value) {
-        _selectedSubCat.value = subCategory
-        _properties.value = emptyList()
-        getProperties(subCategory.id)
+            _selectedSubCat.value = subCategory
+            _properties.value = emptyList()
+            getProperties(subCategory.id)
         }
-    }
-
-    init {
-        getCategories()
-    }
-
-    fun getState(){
-        _properties.value = _properties.value
-        _selectedCat.value = _selectedCat.value
-        _selectedSubCat.value = _selectedSubCat.value
     }
 
     private fun getCategories() {
@@ -151,8 +73,10 @@ class CategoriesVM @Inject constructor(
                     is Resource.Error -> _state.emit(CategoriesUIState.Failure(it.exception))
                     is Resource.Loading -> _state.emit(CategoriesUIState.Loading(it.loading))
                     is Resource.Success -> {
-                        _state.emit(CategoriesUIState.LoadedCategories(it.data))
-                        _selectedCat.value = it.data.first()
+                        _allCats.value = it.data.mapIndexed { index, category ->
+                            category.copy(isSelected = index == 0) // Mark the first category as selected
+                        }
+                        _state.emit(CategoriesUIState.LoadedCategories(_allCats.value))
                         _selectedSubCat.value = null
                     }
                 }
@@ -185,12 +109,9 @@ class CategoriesVM @Inject constructor(
                     is Resource.Error -> _state.emit(CategoriesUIState.Failure(it.exception))
                     is Resource.Loading -> _state.emit(CategoriesUIState.Loading(it.loading))
                     is Resource.Success -> {
-                        val newProperties = it.data // Assuming this is a List<Property>
+                        val newProperties = it.data
                         _properties.value = _properties.value.toMutableList().apply {
-                            addAll(
-                                indexOf(property) + 1,
-                                newProperties
-                            ) // Insert the new properties right after the specified index
+                            addAll(indexOf(property) + 1, newProperties)
                         }
                         _state.emit(CategoriesUIState.LoadedProperties(_properties.value))
                     }
@@ -199,12 +120,10 @@ class CategoriesVM @Inject constructor(
         }
     }
 
-
     fun getAllData() {
         viewModelScope.launch {
             _state.emit(CategoriesUIState.LoadedProperties(_properties.value))
         }
     }
-
 }
 

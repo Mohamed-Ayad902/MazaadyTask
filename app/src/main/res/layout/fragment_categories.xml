@@ -107,7 +107,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_35sdp"
-        android:text="Navigate To Home"
+        android:text="@string/navigate_to_home"
+        app:layout_constraintBottom_toTopOf="@id/btn_naviateToTable" />
+
+    <Button
+        android:id="@+id/btn_naviateToTable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_35sdp"
+        android:text="@string/nacigate_to_table"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
